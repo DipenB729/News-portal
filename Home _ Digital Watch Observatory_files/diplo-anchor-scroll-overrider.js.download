@@ -1,0 +1,51 @@
+/**
+ * Default scroll does not include header height so we are overriding default behaviour to include header
+ */
+
+
+jQuery(document).ready(function () {
+
+    let header;
+    let headerHeight;
+
+    switch (window.location.hostname) {
+        case 'dig.watch':
+            header = document.getElementById("masthead");
+            headerHeight = header != undefined ? header.offsetHeight + 80 : 0;
+            break;
+        case 'study.diplomacy.edu':
+            header = document.getElementsByClassName("ld-focus-header")[0];
+            headerHeight = header != undefined ? header.offsetHeight + 50 : 0;
+            break;
+        default:
+            headerHeight = 0;
+    }
+
+    (function ($, window) {
+        var adjustAnchor = function () {
+
+            //Menu height
+            //For study.diplomacy.edu it is 100
+            //For dig.watch it is 400
+            var $anchor = $(':target'),
+                fixedElementHeight = 200;
+
+            if ($anchor.length > 0) {
+
+                $('html, body')
+                    .stop()
+                    .animate({
+                        scrollTop: $anchor.offset().top - headerHeight
+                    }, 200);
+
+            }
+
+        };
+
+        $(window).on('hashchange load', function () {
+            adjustAnchor();
+        });
+
+    })(jQuery, window);
+
+});

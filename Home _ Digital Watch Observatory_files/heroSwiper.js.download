@@ -1,0 +1,22 @@
+const swiper = new Swiper('.dw-swiper', {
+    loop: true,
+    pagination: {
+        el: ".swiper-pagination",
+		clickable: true,
+    },
+    autoplay: {
+        delay: 6500,
+        disableOnInteraction: false,
+    },
+});
+
+const swiperHero = new Swiper('.dw-swiperHero', {
+    loop: true,
+    pagination: {
+        el: ".swiper-pagination-hero",
+    },
+    autoplay: {
+        delay: 5500,
+        disableOnInteraction: false,
+    },
+});

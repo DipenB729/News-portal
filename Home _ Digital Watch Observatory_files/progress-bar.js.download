@@ -1,0 +1,54 @@
+jQuery(document).ready(function($) {
+  scrollProgressBar();
+  breadcrumbsShadow();
+});
+
+function scrollProgressBar() {
+  var getMax = function () {
+    return $(document).height() - $(window).height();
+  };
+
+  var getValue = function () {
+    return $(window).scrollTop();
+  };
+
+  var progressBar = $(".dw-progress-bar"),
+    max = getMax(),
+    value,
+    width;
+
+  var getWidth = function () {
+    // Calculate width in percentage
+    value = getValue();
+    width = (value / max) * 100;
+    width = width + "%";
+    return width;
+  };
+
+  var setWidth = function () {
+    progressBar.css({ width: getWidth() });
+  };
+
+  $(document).on("scroll", setWidth);
+  $(window).on("resize", function () {
+    // Need to reset max
+    max = getMax();
+    setWidth();
+  });
+}
+
+function breadcrumbsShadow() {
+    //caches a jQuery object containing the header element
+    var breadcrumbs = $("#breadcrumbs");
+    
+    $(window).scroll(function() {
+        var scrollT = $(window).scrollTop();
+
+        if (scrollT >= 136) {
+            breadcrumbs.addClass("dw-addShadow");
+        } else {
+            breadcrumbs.removeClass("dw-addShadow");
+        }
+        
+    });
+}

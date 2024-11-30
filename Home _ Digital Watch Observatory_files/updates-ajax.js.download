@@ -1,0 +1,48 @@
+(function($) {
+
+	function updatesFilter(category, limit) {
+
+		$.ajax({
+			type: 'POST',
+			url: '/wp-admin/admin-ajax.php',
+			dataType: 'html',
+			data: {
+				action: 'updatesGridHome',
+				category: category,
+				limit: limit
+			},
+			beforeSend: function() {
+				$(".dw-postsLoader").fadeIn();
+				$('html, body').animate({ scrollTop: 0 }, 300);
+				//	$(".dw-postsLoader").animate({opacity: '1'}, "slow");
+			},
+			success: function(res) {
+				$('.dw-articles__wrapper').html(res);
+			},
+			complete: function() {
+				$(".dw-postsLoader").fadeOut();
+				//	$(".dw-postsLoader").animate({opacity: '0.5'}, "slow");
+			}
+		})
+	}
+
+	$( ".dw-filterBtn" ).click(function() {
+		let category = $(this).data( "category" );
+		let limit = $(this).data( "limit" );
+		updatesFilter(category, limit);
+		$( ".dw-filterBtn" ).removeClass('active');
+		$(this).addClass('active');
+	});
+	
+	$(document).ready(function() {
+		$(window).scroll(function() {
+			let postGrid = $("#dw-home_grid").outerHeight();
+			if ($(this).scrollTop() > postGrid) {
+				$('#buttons__container').fadeOut();
+			} else {
+				$('#buttons__container').fadeIn();
+			}
+		});
+	});
+
+})(jQuery);

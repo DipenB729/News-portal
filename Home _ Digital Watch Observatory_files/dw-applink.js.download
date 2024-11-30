@@ -1,0 +1,52 @@
+function getOS() {
+  var uA = navigator.userAgent || navigator.vendor || window.opera;
+  if ((/iPad|iPhone|iPod/.test(uA) && !window.MSStream) || (uA.includes('Mac') && 'ontouchend' in document)) return 'iOS';
+
+  var i, os = ['Windows', 'Android', 'Unix', 'Mac', 'Linux', 'BlackBerry'];
+  for (i = 0; i < os.length; i++) if (new RegExp(os[i],'i').test(uA)) return os[i];
+}
+
+function updateLinkBasedOnOS() {
+    var os = getOS();
+    var linkElement = document.getElementsByClassName("applink"); 
+     for (let i = 0; i < linkElement.length; i++) {
+      if (os === 'iOS') {
+        linkElement[i].href = "https://apps.apple.com/rs/app/dig-watch-news/id1488749733";
+      } else if (os === 'Android') {
+        linkElement[i].href = "https://play.google.com/store/apps/details?id=com.Dig.Watch&hl=en&gl=US";
+      } else {
+        linkElement[i].href = "https://dig.watch/dw-news-app";
+      }
+     }
+}
+window.onload = updateLinkBasedOnOS;
+
+
+var appheader = document.getElementsByClassName("dwappheader")[0];
+var clicktoclose = document.getElementById("clicktoclose");
+
+function hideAppheader() {
+	appheader.style.display = "none";
+	
+	const elements = ["dw-breadcrumbs", "anchorList", "buttons__container", "dw-breadcrumbs-single"];
+	for (var i = 0; i < elements.length; i++) {
+		changeTop(elements[i]);
+	}
+}
+clicktoclose.addEventListener("click", hideAppheader);
+
+function changeTop(element) {
+	var elementtochange = document.getElementById(element);
+	
+	if (elementtochange) {
+		const style = getComputedStyle(elementtochange);
+		var currentTop = style.top;
+		currentTop = currentTop.slice(0, -2);
+		currentTop = currentTop * 1;
+		var newTop = currentTop - 40;
+		newTop = newTop + "px";
+		elementtochange.style.top = newTop;	
+	}
+}
+
+
